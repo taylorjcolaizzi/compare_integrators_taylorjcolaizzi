@@ -11,14 +11,30 @@ using std::endl;
 // Note: this code is not safe wrt the number of intervals
 // Make sure the number of intervals used is valid for each integrator
 
-
 // Integration using trapezoid rule 
 // npts : number of points used in calculation (npts>=2)
 double trapez (double (*f)(double x), unsigned npts, double min, double max) {
   double sum=0.;		 
+  // formula for each trapezoid is 1/2 * (f1 + f2) * h
+  // simplify to 1/2 h f1 + 1/2 h f2
+  // for inner points, you double count as h f1 + h f2 + ...
+  // outer points should be 1/2 h f0 + ... 1/2 h f(N-1)
 
-  // complete your code here
-  
+  unsigned i;
+  double h = (max - min);
+  double half = h/2;
+  for (i = 0; i < npts; i++){
+    double x = min + i * h;
+    if ( (i == 0) || (i == (npts - 1) ) ) {
+      sum += half * f(x);
+    }
+    else {
+      sum += h * f(x);
+    }
+  }
+
+  // print out the result
+  std::cout << "Total trapezoid integral = " << sum << std::endl;
   return (sum);
 }      
 
@@ -26,9 +42,24 @@ double trapez (double (*f)(double x), unsigned npts, double min, double max) {
 // npts : number of points used in calculation (npts odd, and >=3)
 double simpson (double (*f)(double x), unsigned npts, double min, double max){  
   double sum=0.;
+  // formula for each pair of intervals is h/3 * (f0 + 4 f1 + f2)
+  // but you do this for each i of the N points. But for each of those, you go at
+  // the point, at h/3 + the point, and at 2h/3 + the point. That way, you 
+  if (npts % 2 != 0) {
+    std::cout << "Simpson's rule needs an odd number of points" << std::endl;
+    exit(1);
+  }
+  else {
+    unsigned nint = npts - 1;  // number of intervals
+    double h = (max - min) / nint;
+    double hthird = h / 3;
+    double hhalf = h / 2;
+    for (unsigned i = 0; i < nint; i++) {
+      double x = min + i * h;
+      sum += hthird * (f(x) + 4 * f(x + hhalf) + f(x + h)); // may change to adding 4 times instead.
+    }
+  }
 
-  // complete your code here
-  
   return (sum);
 }  
 
