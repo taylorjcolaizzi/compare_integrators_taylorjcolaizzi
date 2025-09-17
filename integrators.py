@@ -52,10 +52,8 @@ def simpson(function, points, minimum, maximum):
             # sum += hthird * ( function(x) + 2 * function(x + h) * (i%2) + 2 * function(x + h) + function(x + h + h) )
             sum += hthird * ( function(x) + 4 * function(x + h/2) + function(x + h) ) / 2
 
-            # Originally I was double counting. Not sure how best to get rid of double counting without just dividing 2????
+            # Originally I was double counting. Not sure how best to get rid of double counting without just dividing 2... oof
         return sum
-            
-
 
 # gaussian quadrature ~~~~~~~~~~~~~~~~~~~
 def gauss(function, points, minimum, maximum):
@@ -78,7 +76,6 @@ def fast_sin(x):
     """
     takes in point. multiplies by 100. calculates sin
     """
-    # return sin(100 * x)
     return sin(100 * x)
 
 def integral_exp():
@@ -103,9 +100,6 @@ def error(calculated, actual, absolute = 1):
         return abs( (calculated - actual) / actual )
     else:
         return (calculated - actual) / actual
-
-# trapezoid(neg_exp, 100, 0, 1)
-# print("true value is", 1 - neg_exp(1))
 
 # calculating the error ~~~~~~~~~~~~~~~~~
 
@@ -141,7 +135,6 @@ for i, func in enumerate(functions):
         axes.set_ylabel("log of abs(error)")
         axes.set_xlabel("log of N")
         axes.set_title("integrate exp(-x)")
-        # axes.set_title("integrate sin(100x)")
         axes.legend()
         axes.set_xscale('log')
         axes.set_yscale('log')
@@ -151,11 +144,10 @@ for i, func in enumerate(functions):
 
 plt.tight_layout()
 plt.savefig("Errors.png")
-# print('plot done bruh')
 plt.show()
 
 
-# doing a tricky function sin(100x)
+# doing a tricky function sin(100x) ~~~~~~~~~~~~~~~
 
 # this will be tricky because you have fast oscillations. Need lots of steps here to work well.
 
@@ -169,7 +161,6 @@ for i, func in enumerate(functions):
         axes.plot((spacings), (now_error), label = method.__name__, marker = 'o')
         axes.set_ylabel("log of abs(error)")
         axes.set_xlabel("log of N")
-        # axes.set_title("integrate exp(-x)")
         axes.set_title("integrate sin(100x)")
         axes.legend()
         axes.set_xscale('log')
@@ -178,5 +169,4 @@ for i, func in enumerate(functions):
 
 plt.tight_layout()
 plt.savefig("BadErrors.png")
-# print('plot done bruh')
 plt.show()
